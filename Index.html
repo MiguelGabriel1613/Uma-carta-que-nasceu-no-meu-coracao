@@ -11,8 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Warm Neutrals & Soft Rose -->
-    <!-- Application Structure Plan: A single-page application designed as a storytelling journey. It starts with a hero section to set the emotional tone, followed by a section detailing the moment of the decision and the father's personal history. The core is an interactive section where clicking on each part of Sophia's name reveals its specific meaning. A section for generating LLM-powered advice is included. A new interactive section 'Converse com o Papai' is added for direct AI interaction, providing loving, motivational, and faith-based advice. The father's hopes for Sophia's future and eternal love are presented. Finally, the 'Minhas Paixões' section with 'Horas de Trabalho' documents the project's creation timeline. This structure was chosen to make the deep, personal content more engaging and digestible, allowing the user to uncover the story layer by layer, enhancing the emotional impact and providing transparency on the creation process. -->
-    <!-- Visualization & Content Choices: The application uses structured HTML and Tailwind CSS for all visual elements, avoiding charts as there is no quantitative data. The primary interaction is in the "História do Seu Nome" section. Interactive elements for LLM-powered advice and direct conversation are introduced. Goal: Interactively explain the name's meaning, provide dynamic advice, enable personalized faith-based motivation, and document the project's development. Presentation: Each part of the name is a clickable element. Interaction: Clicking a name part updates a text area with its corresponding story using vanilla JavaScript. A button triggers an LLM call to generate advice, displayed in a dedicated area. The 'Converse com o Papai' section features a text input and send button for user queries, with AI responses displayed dynamically. The working hours are presented as a simple list. Justification: This method makes the core message of the letter—the meaning behind the name—the central, interactive focus, adds dynamic, personalized elements through LLM-generated advice and conversation, and provides a unique personal touch by documenting the creation process. Library/Method: Vanilla JS for interaction, Tailwind CSS for styling, Gemini API for LLM advice generation. -->
+    <!-- Application Structure Plan: A single-page application designed as a storytelling journey. It starts with a hero section to set the emotional tone, followed by a section detailing the moment of the decision and the father's personal history. The core is an interactive section where clicking on each part of Sophia's name reveals its specific meaning. A section for generating LLM-powered advice is included. A new interactive section 'Converse com o Papai' is added for direct AI interaction, providing loving, motivational, and faith-based advice, with an experimental voice control feature for the father to influence the AI's responses. This section now includes initial AI greetings and interactive mode selection buttons, and the AI is programmed to initiate conversations and ask follow-up questions in 'Conversar' mode. The father's hopes for Sophia's future and eternal love are presented. Finally, the 'Minhas Paixões' section with 'Horas de Trabalho' documents the project's creation timeline. This structure was chosen to make the deep, personal content more engaging and digestible, allowing the user to uncover the story layer by layer, enhancing the emotional impact and providing transparency on the creation process. -->
+    <!-- Visualization & Content Choices: The application uses structured HTML and Tailwind CSS for all visual elements, avoiding charts as there is no quantitative data. The primary interaction is in the "História do Seu Nome" section. Interactive elements for LLM-powered advice and direct conversation are introduced. Goal: Interactively explain the name's meaning, provide dynamic advice, enable personalized faith-based motivation, and document the project's development. Presentation: Each part of the name is a clickable element. Interaction: Clicking a name part updates a text area with its corresponding story using vanilla JavaScript. A button triggers an LLM call to generate advice, displayed in a dedicated area. The 'Converse com o Papai' section features an initial AI greeting, mode selection buttons, a text input and send button for user queries, with AI responses displayed dynamically, and a voice button for activating a special instruction input. The working hours are presented as a simple list. Justification: This method makes the core message of the letter—the meaning behind the name—the central, interactive focus, adds dynamic, personalized elements through LLM-generated advice and conversation, and provides a unique personal touch by documenting the creation process. Library/Method: Vanilla JS for interaction, Tailwind CSS for styling, Gemini API for LLM advice generation. -->
+    <!-- AI Personalization & Voice Control: The AI's core personality is maintained through a consistent system prompt for the chat feature, ensuring it always responds with love, motivation, and faith-based guidance to Sophia. The voice-activated "Papai Mestre" keyword triggers a hidden input field, allowing the father to type a "special instruction". This instruction is then dynamically added to the AI's prompt for subsequent chat interactions, allowing the father to influence the AI's responses and focus without directly "reprogramming" its core logic. This provides a dynamic layer of personalization. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
@@ -121,15 +122,33 @@
                     Filha, se tiver alguma pergunta, dúvida ou apenas quiser conversar, escreva aqui. O papai (através da inteligência deste site) vai sempre te ouvir com amor e te dar os melhores conselhos, lembrando o quanto te amo e a importância da sua fé e felicidade.
                 </p>
                 <div id="chat-box" class="flex flex-col h-64 overflow-y-auto bg-gray-50 p-4 rounded-lg mb-4 text-left border border-gray-200">
-                    <!-- Chat messages will appear here -->
+                    <!-- Initial AI greeting will be added by JS -->
                 </div>
-                <div class="flex gap-2">
-                    <input type="text" id="chat-input" placeholder="Escreva sua mensagem aqui..." class="flex-grow p-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#D98B9C]">
-                    <button id="send-chat-btn" class="bg-[#D98B9C] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#C27A8B] transition-colors duration-300 shadow-md">
-                        Enviar
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-center gap-4 mb-4">
+                        <button id="mode-aconselhar" class="bg-blue-200 text-blue-800 px-4 py-2 rounded-full font-semibold hover:bg-blue-300 transition-colors duration-300 shadow-md">
+                            Aconselhar
+                        </button>
+                        <button id="mode-conversar" class="bg-green-200 text-green-800 px-4 py-2 rounded-full font-semibold hover:bg-green-300 transition-colors duration-300 shadow-md">
+                            Conversar
+                        </button>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="chat-input" placeholder="Escreva sua mensagem aqui..." class="flex-grow p-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#D98B9C]">
+                        <button id="send-chat-btn" class="bg-[#D98B9C] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#C27A8B] transition-colors duration-300 shadow-md">
+                            Enviar
+                        </button>
+                    </div>
+                    <button id="voice-activate-btn" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-300 shadow-md mt-2">
+                        Ativar Voz (Diga "Papai Mestre")
                     </button>
+                    <div id="special-instruction-area" class="hidden mt-4">
+                        <input type="text" id="special-instruction-input" placeholder="Instrução especial para o Papai AI (ex: 'Seja mais direto.')" class="w-full p-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <p class="text-sm text-gray-500 mt-1">Esta instrução será adicionada ao conselho do Papai AI.</p>
+                    </div>
                 </div>
                 <div id="chat-loading-indicator" class="hidden text-gray-500 mt-2">O papai está a pensar...</div>
+                <div id="voice-status" class="hidden text-gray-500 mt-2">A ouvir...</div>
             </div>
         </section>
 
@@ -169,6 +188,10 @@
                         <li>24/Julho/2025 / 03:33 AM -03 / Adição da seção 'Paixões' e 'Horas de Trabalho'</li>
                         <li>24/Julho/2025 / 03:40 AM -03 / Campo Mourão / PR / História do nome de Sophia.</li>
                         <li>24/Julho/2025 / 03:45 AM -03 / Adição da seção 'Converse com o Papai' e ajuste de 'Horas de Trabalho'.</li>
+                        <li>24/Julho/2025 / 01:05 PM -03 / Geração do código final e explicação de requisitos.</li>
+                        <li>24/Julho/2025 / 01:10 PM -03 / Adição de funcionalidade de chat com IA e controlo por voz.</li>
+                        <li>24/Julho/2025 / 01:20 PM -03 / Melhoria da AI conversacional e adição de opções de interação.</li>
+                        <li>25/Julho/2025 / 02:00 PM -03 / Aprimoramento da AI para iniciar conversas e fazer perguntas no modo 'Conversar'.</li>
                     </ul>
                 </div>
             </div>
@@ -224,6 +247,17 @@
         const chatInput = document.getElementById('chat-input');
         const sendChatBtn = document.getElementById('send-chat-btn');
         const chatLoadingIndicator = document.getElementById('chat-loading-indicator');
+        const voiceActivateBtn = document.getElementById('voice-activate-btn');
+        const specialInstructionArea = document.getElementById('special-instruction-area');
+        const specialInstructionInput = document.getElementById('special-instruction-input');
+        const voiceStatus = document.getElementById('voice-status');
+
+        const modeAconselharBtn = document.getElementById('mode-aconselhar');
+        const modeConversarBtn = document.getElementById('mode-conversar');
+
+        let recognition; // Variável para o objeto SpeechRecognition
+        let specialInstruction = ""; // Variável para armazenar a instrução especial
+        let currentChatMode = 'conversar'; // Modo padrão da conversa
 
         function showStory(name, clickedElement) {
             storyContent.innerHTML = '';
@@ -285,19 +319,47 @@
             }
         }
 
-        async function sendChatMessage() {
+        async function sendChatMessage(initialPrompt = '') {
             const userMessage = chatInput.value.trim();
-            if (userMessage === "") return;
+            if (userMessage === "" && initialPrompt === "") return;
 
-            addMessageToChat(userMessage, 'user');
-            chatInput.value = '';
+            if (userMessage !== "") {
+                addMessageToChat(userMessage, 'user');
+                chatInput.value = '';
+            }
             chatBox.scrollTop = chatBox.scrollHeight;
 
             chatLoadingIndicator.classList.remove('hidden');
             sendChatBtn.disabled = true;
 
-            const prompt = `Você é o pai da Sophia. Responda à Sophia com muito carinho, amor, motivando-a a sempre fazer a coisa certa, a servir a Cristo e a Deus, e reforce o quanto a ama com lindas palavras que apertam o coração. O papai sempre estará com ela. A Sophia disse: "${userMessage}"`;
-            let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            let basePrompt = `Você é o papai da Sophia. Responda à Sophia com muito carinho, amor, motivando-a a sempre fazer a coisa certa, a servir a Cristo e a Deus, e reforce o quanto a ama com lindas palavras que apertam o coração. O papai sempre estará com ela. Em suas respostas, refira-se a si mesmo como "Papai".`;
+            
+            let finalUserMessage = userMessage;
+
+            if (currentChatMode === 'aconselhar') {
+                basePrompt += ` Dê um conselho sábio e amoroso sobre a pergunta dela.`;
+            } else if (currentChatMode === 'conversar') {
+                // Check if user message is a simple greeting or if it's an AI-initiated prompt
+                const simpleGreetings = ["oi", "olá", "tudo bem?", "como vai?", "oi papai", "olá papai", "oi pai", "olá pai"];
+                const isSimpleGreeting = simpleGreetings.some(greeting => userMessage.toLowerCase().includes(greeting));
+
+                if (initialPrompt) { // If this is an AI-initiated prompt
+                    basePrompt += ` Inicie uma conversa amigável, perguntando como ela está ou sobre o dia dela, ou um tópico leve.`;
+                    finalUserMessage = initialPrompt; // Use the initial prompt as the "user message" for the AI
+                } else if (isSimpleGreeting) {
+                    basePrompt += ` Inicie uma conversa amigável, perguntando como ela está ou sobre o dia dela, ou um tópico leve.`;
+                } else {
+                    basePrompt += ` Mantenha uma conversa amigável e de apoio, respondendo à mensagem dela. Faça uma pergunta para continuar a conversa.`;
+                }
+            }
+
+            if (specialInstruction) {
+                basePrompt += ` Instrução especial do papai: "${specialInstruction}".`;
+            }
+            
+            const fullPrompt = `${basePrompt} A Sophia disse: "${finalUserMessage}"`;
+
+            let chatHistory = [{ role: "user", parts: [{ text: fullPrompt }] }];
             const payload = { contents: chatHistory };
             const apiKey = ""; 
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
@@ -335,6 +397,83 @@
             chatBox.appendChild(messageDiv);
         }
 
+        function setChatMode(mode) {
+            currentChatMode = mode;
+            // Limpa o chat box ao mudar de modo para uma nova interação
+            chatBox.innerHTML = ''; 
+            specialInstruction = ""; // Limpa a instrução especial ao mudar de modo
+
+            modeAconselharBtn.classList.remove('bg-blue-800', 'text-white');
+            modeConversarBtn.classList.remove('bg-green-800', 'text-white');
+
+            if (mode === 'aconselhar') {
+                modeAconselharBtn.classList.add('bg-blue-800', 'text-white');
+                addMessageToChat("Olá, minha filha. Em que o papai pode te aconselhar hoje? Conte-me o que está no seu coração.", 'ai');
+            } else if (mode === 'conversar') {
+                modeConversarBtn.classList.add('bg-green-800', 'text-white');
+                // Inicia a conversa com uma saudação e pergunta no modo conversar
+                sendChatMessage("Oi, papai! Tudo bem?", true); // O segundo argumento 'true' indica que é um prompt inicial da AI
+            }
+        }
+
+        // Configuração do reconhecimento de voz
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false; // Não contínuo, para detectar uma única frase
+            recognition.lang = 'pt-BR'; // Idioma português do Brasil
+            recognition.interimResults = false; // Não mostrar resultados provisórios
+
+            recognition.onstart = function() {
+                voiceStatus.textContent = 'A ouvir... Diga "Papai Mestre"';
+                voiceStatus.classList.remove('hidden');
+                voiceActivateBtn.disabled = true;
+                voiceActivateBtn.textContent = 'A Ouvir...';
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                voiceStatus.textContent = 'Detetado: ' + transcript;
+
+                if (transcript.toLowerCase().includes('papai mestre')) {
+                    specialInstructionArea.classList.remove('hidden');
+                    voiceStatus.textContent = 'Palavra-chave detetada! Insira a instrução especial.';
+                } else {
+                    voiceStatus.textContent = 'Palavra-chave não detetada. Tente novamente.';
+                }
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Erro no reconhecimento de voz:', event.error);
+                voiceStatus.textContent = 'Erro no reconhecimento de voz. Tente novamente.';
+                voiceActivateBtn.disabled = false;
+                voiceActivateBtn.textContent = 'Ativar Voz (Diga "Papai Mestre")';
+                specialInstructionArea.classList.add('hidden');
+            };
+
+            recognition.onend = function() {
+                voiceActivateBtn.disabled = false;
+                voiceActivateBtn.textContent = 'Ativar Voz (Diga "Papai Mestre")';
+                if (!specialInstructionArea.classList.contains('hidden')) {
+                    voiceStatus.textContent = 'Pronto para a instrução especial.';
+                } else {
+                    voiceStatus.classList.add('hidden');
+                }
+            };
+
+            voiceActivateBtn.addEventListener('click', () => {
+                recognition.start();
+            });
+
+            specialInstructionInput.addEventListener('input', () => {
+                specialInstruction = specialInstructionInput.value.trim();
+            });
+
+        } else {
+            voiceActivateBtn.textContent = 'Reconhecimento de voz não suportado neste navegador.';
+            voiceActivateBtn.disabled = true;
+        }
+
+
         document.addEventListener('DOMContentLoaded', () => {
             showStory('sophia');
             generateAdviceBtn.addEventListener('click', generateAdvice);
@@ -344,6 +483,11 @@
                     sendChatMessage();
                 }
             });
+
+            // Definir o modo inicial e adicionar o listener para os botões de modo
+            setChatMode('conversar'); // Define o modo inicial como 'conversar'
+            modeAconselharBtn.addEventListener('click', () => setChatMode('aconselhar'));
+            modeConversarBtn.addEventListener('click', () => setChatMode('conversar'));
         });
     </script>
 
