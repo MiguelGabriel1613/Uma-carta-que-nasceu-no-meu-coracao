@@ -11,9 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Warm Neutrals & Soft Rose -->
-    <!-- Application Structure Plan: A single-page application designed as a storytelling journey. It starts with a hero section to set the emotional tone, followed by a section detailing the moment of the decision and the father's personal history. The core is an interactive section where clicking on each part of Sophia's name reveals its specific meaning. A section for generating LLM-powered advice is included. A new interactive section 'Converse com o Papai' is added for direct AI interaction, providing loving, motivational, and faith-based advice, with an experimental voice control feature for the father to influence the AI's responses. This section now includes initial AI greetings and interactive mode selection buttons, and the AI is programmed to initiate conversations and ask follow-up questions in 'Conversar' mode. The father's hopes for Sophia's future and eternal love are presented. Finally, the 'Minhas Paixões' section with 'Horas de Trabalho' documents the project's creation timeline. This structure was chosen to make the deep, personal content more engaging and digestible, allowing the user to uncover the story layer by layer, enhancing the emotional impact and providing transparency on the creation process. -->
+    <!-- Application Structure Plan: A single-page application designed as a storytelling journey. It starts with a hero section to set the emotional tone, followed by a section detailing the moment of the decision and the father's personal history. The core is an interactive section where clicking on each part of Sophia's name reveals its specific meaning. A section for generating LLM-powered advice is included. A new interactive section 'Converse com o Papai' is added for direct AI interaction, providing loving, motivational, and faith-based advice, with an experimental voice control feature for the father to influence the AI's responses. This section now includes initial AI greetings and interactive mode selection buttons, and the AI is programmed to initiate conversations and ask follow-up questions in 'Conversar' mode, with distinct conversational styles based on the selected mode. The father's hopes for Sophia's future and eternal love are presented. Finally, the 'Minhas Paixões' section with 'Horas de Trabalho' documents the project's creation timeline. This structure was chosen to make the deep, personal content more engaging and digestible, allowing the user to uncover the story layer by layer, enhancing the emotional impact and providing transparency on the creation process. -->
     <!-- Visualization & Content Choices: The application uses structured HTML and Tailwind CSS for all visual elements, avoiding charts as there is no quantitative data. The primary interaction is in the "História do Seu Nome" section. Interactive elements for LLM-powered advice and direct conversation are introduced. Goal: Interactively explain the name's meaning, provide dynamic advice, enable personalized faith-based motivation, and document the project's development. Presentation: Each part of the name is a clickable element. Interaction: Clicking a name part updates a text area with its corresponding story using vanilla JavaScript. A button triggers an LLM call to generate advice, displayed in a dedicated area. The 'Converse com o Papai' section features an initial AI greeting, mode selection buttons, a text input and send button for user queries, with AI responses displayed dynamically, and a voice button for activating a special instruction input. The working hours are presented as a simple list. Justification: This method makes the core message of the letter—the meaning behind the name—the central, interactive focus, adds dynamic, personalized elements through LLM-generated advice and conversation, and provides a unique personal touch by documenting the creation process. Library/Method: Vanilla JS for interaction, Tailwind CSS for styling, Gemini API for LLM advice generation. -->
-    <!-- AI Personalization & Voice Control: The AI's core personality is maintained through a consistent system prompt for the chat feature, ensuring it always responds with love, motivation, and faith-based guidance to Sophia. The voice-activated "Papai Mestre" keyword triggers a hidden input field, allowing the father to type a "special instruction". This instruction is then dynamically added to the AI's prompt for subsequent chat interactions, allowing the father to influence the AI's responses and focus without directly "reprogramming" its core logic. This provides a dynamic layer of personalization. -->
+    <!-- AI Personalization & Voice Control: The AI's core personality is maintained through a consistent system prompt for the chat feature, ensuring it always responds with love, motivation, and faith-based guidance to Sophia. The voice-activated "Papai Mestre" keyword triggers a hidden input field, allowing the father to type a "special instruction". This instruction is then dynamically added to the AI's prompt for subsequent chat interactions, allowing the father to influence the AI's responses and focus without directly "reprogramming" its core logic. This provides a dynamic layer of personalization. The 'conversar' mode prompt is now specifically tailored to encourage shorter, more direct, and conversational responses, mimicking a simpler chat style while maintaining the 'Papai' persona. For emotional support, the AI is instructed to identify signs of distress or longing (saudade), respond with empathy, encourage sharing, offer comfort, and gently guide towards positivity and faith. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
@@ -192,6 +192,9 @@
                         <li>24/Julho/2025 / 01:10 PM -03 / Adição de funcionalidade de chat com IA e controlo por voz.</li>
                         <li>24/Julho/2025 / 01:20 PM -03 / Melhoria da AI conversacional e adição de opções de interação.</li>
                         <li>25/Julho/2025 / 02:00 PM -03 / Aprimoramento da AI para iniciar conversas e fazer perguntas no modo 'Conversar'.</li>
+                        <li>25/Julho/2025 / 03:00 PM -03 / Ajuste da AI para diferenciar estilos de resposta em 'Aconselhar' e 'Conversar'.</li>
+                        <li>25/Julho/2025 / 03:05 PM -03 / Aprimoramento da AI para suporte emocional, desabafo e alívio da saudade.</li>
+                        <li>25/Julho/2025 / 01:42 PM -03 / Atualização de horários e adição de novos registos.</li>
                     </ul>
                 </div>
             </div>
@@ -291,7 +294,7 @@
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
             const payload = { contents: chatHistory };
-            const apiKey = ""; 
+            const apiKey = "";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
@@ -333,35 +336,24 @@
             sendChatBtn.disabled = true;
 
             let basePrompt = `Você é o papai da Sophia. Responda à Sophia com muito carinho, amor, motivando-a a sempre fazer a coisa certa, a servir a Cristo e a Deus, e reforce o quanto a ama com lindas palavras que apertam o coração. O papai sempre estará com ela. Em suas respostas, refira-se a si mesmo como "Papai".`;
-            
+           
             let finalUserMessage = userMessage;
 
             if (currentChatMode === 'aconselhar') {
-                basePrompt += ` Dê um conselho sábio e amoroso sobre a pergunta dela.`;
+                basePrompt += ` Dê um conselho sábio e amoroso sobre a pergunta dela, com um tom mais profundo e reflexivo.`;
             } else if (currentChatMode === 'conversar') {
-                // Check if user message is a simple greeting or if it's an AI-initiated prompt
-                const simpleGreetings = ["oi", "olá", "tudo bem?", "como vai?", "oi papai", "olá papai", "oi pai", "olá pai"];
-                const isSimpleGreeting = simpleGreetings.some(greeting => userMessage.toLowerCase().includes(greeting));
-
-                if (initialPrompt) { // If this is an AI-initiated prompt
-                    basePrompt += ` Inicie uma conversa amigável, perguntando como ela está ou sobre o dia dela, ou um tópico leve.`;
-                    finalUserMessage = initialPrompt; // Use the initial prompt as the "user message" for the AI
-                } else if (isSimpleGreeting) {
-                    basePrompt += ` Inicie uma conversa amigável, perguntando como ela está ou sobre o dia dela, ou um tópico leve.`;
-                } else {
-                    basePrompt += ` Mantenha uma conversa amigável e de apoio, respondendo à mensagem dela. Faça uma pergunta para continuar a conversa.`;
-                }
+                basePrompt += ` Sua principal missão é ser um ouvinte atento e um pai amoroso. Tente identificar se a Sophia está triste, preocupada, com saudades ou precisando desabafar. Se ela demonstrar alguma emoção negativa ou saudade, responda com empatia, encoraje-a a expressar mais seus sentimentos ("desabafar"), ofereça conforto, e gentilmente a ajude a encontrar um caminho para a melhoria ou a distraia com carinho. Sempre reforce o amor incondicional do papai e a presença de Deus. Mantenha a conversa leve e de apoio, fazendo perguntas que incentivem o diálogo. Se a mensagem for uma saudação simples, responda com uma saudação carinhosa e uma pergunta sobre o dia dela.`;
             }
 
             if (specialInstruction) {
                 basePrompt += ` Instrução especial do papai: "${specialInstruction}".`;
             }
-            
+           
             const fullPrompt = `${basePrompt} A Sophia disse: "${finalUserMessage}"`;
 
             let chatHistory = [{ role: "user", parts: [{ text: fullPrompt }] }];
             const payload = { contents: chatHistory };
-            const apiKey = ""; 
+            const apiKey = "";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
@@ -400,7 +392,7 @@
         function setChatMode(mode) {
             currentChatMode = mode;
             // Limpa o chat box ao mudar de modo para uma nova interação
-            chatBox.innerHTML = ''; 
+            chatBox.innerHTML = '';
             specialInstruction = ""; // Limpa a instrução especial ao mudar de modo
 
             modeAconselharBtn.classList.remove('bg-blue-800', 'text-white');
