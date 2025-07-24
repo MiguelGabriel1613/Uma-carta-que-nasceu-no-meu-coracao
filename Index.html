@@ -1,0 +1,351 @@
+                            <!-- Uma carta que nasceu no meu coração -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Minha Amada Sophia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals & Soft Rose -->
+    <!-- Application Structure Plan: A single-page application designed as a storytelling journey. It starts with a hero section to set the emotional tone, followed by a section detailing the moment of the decision and the father's personal history. The core is an interactive section where clicking on each part of Sophia's name reveals its specific meaning. A section for generating LLM-powered advice is included. A new interactive section 'Converse com o Papai' is added for direct AI interaction, providing loving, motivational, and faith-based advice. The father's hopes for Sophia's future and eternal love are presented. Finally, the 'Minhas Paixões' section with 'Horas de Trabalho' documents the project's creation timeline. This structure was chosen to make the deep, personal content more engaging and digestible, allowing the user to uncover the story layer by layer, enhancing the emotional impact and providing transparency on the creation process. -->
+    <!-- Visualization & Content Choices: The application uses structured HTML and Tailwind CSS for all visual elements, avoiding charts as there is no quantitative data. The primary interaction is in the "História do Seu Nome" section. Interactive elements for LLM-powered advice and direct conversation are introduced. Goal: Interactively explain the name's meaning, provide dynamic advice, enable personalized faith-based motivation, and document the project's development. Presentation: Each part of the name is a clickable element. Interaction: Clicking a name part updates a text area with its corresponding story using vanilla JavaScript. A button triggers an LLM call to generate advice, displayed in a dedicated area. The 'Converse com o Papai' section features a text input and send button for user queries, with AI responses displayed dynamically. The working hours are presented as a simple list. Justification: This method makes the core message of the letter—the meaning behind the name—the central, interactive focus, adds dynamic, personalized elements through LLM-generated advice and conversation, and provides a unique personal touch by documenting the creation process. Library/Method: Vanilla JS for interaction, Tailwind CSS for styling, Gemini API for LLM advice generation. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDF8F5;
+            color: #4A4A4A;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        .name-part {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .name-part.active {
+            color: #D98B9C;
+            border-bottom-color: #D98B9C;
+        }
+        .content-fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chat-message {
+            padding: 8px 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            max-width: 80%;
+        }
+        .chat-message.user {
+            background-color: #E0F2F7;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .chat-message.ai {
+            background-color: #FCE7F3;
+            align-self: flex-start;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <main class="container mx-auto px-4 py-8 md:py-16 max-w-4xl">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-bold text-gray-800">Para Minha Amada Sophia</h1>
+            <p class="text-lg mt-2 text-gray-600">Uma carta que nasceu no coração</p>
+        </header>
+
+        <section id="decision" class="mb-16">
+            <div class="bg-white/60 p-8 rounded-2xl shadow-lg">
+                <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">O Momento da Decisão e a Nossa História</h2>
+                <div class="text-center mb-6 text-gray-500 flex items-center justify-center space-x-4">
+                    <span>🗓️ 24 de Julho de 2025</span>
+                    <span>🕰️ 2:17 da Madrugada</span>
+                </div>
+                <p class="text-lg leading-relaxed text-gray-700">
+                    Minha amada filha, hoje, no dia 24 de julho de 2025, pelas 2:17 da madrugada, enquanto o mundo dormia, o coração do seu papai estava apertado. As lembranças visitavam-me, e com elas, um sonho que um dia pensei que se perderia. Eu sentia-me mal, filha, mas foi nesse momento de dor que a luz que você representa começou a brilhar em mim.
+                </p>
+                <p class="text-lg leading-relaxed text-gray-700 mt-4">
+                    Papai era de Campo Mourão, uma cidade muito legal, e foi aqui que conheci o amor da minha vida. Se não fosse ela, você não teria vivido com o papai todo este pequeno tempo que vivemos junto do seu crescimento, desde bebezinha a uma mulher de família que sempre será minha bebezinha pequenininha. Eu estudava num colégio chamado Darcy José Costa, onde era muito legal. Era um ensino médio técnico em desenvolvimento de sistemas, por isso o papai fez este site para você! E o amor do papai também estava na mesma sala que eu. Filha, o papai amava-a muito, você não imagina o quanto.
+                </p>
+                <p class="text-lg leading-relaxed text-gray-700 mt-4">
+                    O papai cresceu nessa cidade de Campo Mourão, mas para a criar, não pude continuar a morar lá por questões judiciais. Mas o amor de pai, filha, é maior do que qualquer despedida.
+                </p>
+                <p class="text-lg leading-relaxed text-gray-700 mt-4">
+                    Foi então que tomei a decisão mais importante da minha vida: **eu a escolheria**. Eu a adotaria e a amaria com tudo o que há em mim. Não a ter nos meus braços, minha pequena, seria uma dor insuportável. E agora, olhando para o futuro, sinto o meu coração apertado de tanta ansiedade para finalmente a abraçar e lhe dar todo o amor e carinho que transbordam cá dentro.
+                </p>
+            </div>
+        </section>
+
+        <section id="name-story" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">A História do Seu Nome</h2>
+            <div class="bg-white/60 p-8 rounded-2xl shadow-lg">
+                <div class="flex flex-wrap justify-center items-center gap-x-4 md:gap-x-6 gap-y-2 mb-8 text-2xl md:text-3xl font-semibold text-gray-500">
+                    <span class="name-part active" onclick="showStory('sophia', this)">Sophia</span>
+                    <span class="name-part" onclick="showStory('fernanda', this)">Fernanda Amorim</span>
+                    <span class="name-part" onclick="showStory('luz', this)">da Luz</span>
+                </div>
+                <div id="story-content" class="text-lg leading-relaxed text-gray-700 min-h-[200px]">
+                </div>
+            </div>
+        </section>
+
+        <section id="gemini-advice" class="mb-16">
+            <div class="bg-white/60 p-8 rounded-2xl shadow-lg text-center">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">✨ Um Conselho do Papai para a Sophia ✨</h2>
+                <button id="generate-advice-btn" class="bg-[#D98B9C] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#C27A8B] transition-colors duration-300 shadow-md">
+                    Gerar Conselho Especial
+                </button>
+                <div id="advice-output" class="mt-8 text-lg leading-relaxed text-gray-700 min-h-[100px] flex items-center justify-center">
+                    <span id="loading-indicator" class="hidden text-gray-500">A gerar conselho...</span>
+                    <p id="generated-advice"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="chat-with-dad" class="mb-16">
+            <div class="bg-white/60 p-8 rounded-2xl shadow-lg text-center">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">💬 Converse com o Papai 💬</h2>
+                <p class="text-lg leading-relaxed text-gray-700 mb-4">
+                    Filha, se tiver alguma pergunta, dúvida ou apenas quiser conversar, escreva aqui. O papai (através da inteligência deste site) vai sempre te ouvir com amor e te dar os melhores conselhos, lembrando o quanto te amo e a importância da sua fé e felicidade.
+                </p>
+                <div id="chat-box" class="flex flex-col h-64 overflow-y-auto bg-gray-50 p-4 rounded-lg mb-4 text-left border border-gray-200">
+                    <!-- Chat messages will appear here -->
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="chat-input" placeholder="Escreva sua mensagem aqui..." class="flex-grow p-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#D98B9C]">
+                    <button id="send-chat-btn" class="bg-[#D98B9C] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#C27A8B] transition-colors duration-300 shadow-md">
+                        Enviar
+                    </button>
+                </div>
+                <div id="chat-loading-indicator" class="hidden text-gray-500 mt-2">O papai está a pensar...</div>
+            </div>
+        </section>
+
+        <section id="hopes-and-love" class="text-center mb-16">
+             <div class="bg-white/60 p-8 rounded-2xl shadow-lg">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Meus Desejos e Amor Eterno</h2>
+                <p class="text-lg leading-relaxed text-gray-700">
+                    Você é a filha que eu decidi amar, a minha pequenina linda que eu já amo muito, mesmo antes de a conhecer. O seu nome carrega todo esse sentimento, toda essa jornada.
+                </p>
+                <p class="text-lg leading-relaxed text-gray-700 mt-4">
+                    Papai ama-a muito e deseja-lhe tudo de bom. Sempre que precisar, papai vai estar aqui para a ajudar. E se algum dia se virar contra o papai, saiba que o papai vai amá-la sempre, está bem, pequenina do papai?
+                </p>
+                <p class="text-lg leading-relaxed text-gray-700 mt-4">
+                    Filha, o que o papai mais quer é vê-la a casar com um homem que a ame de verdade e que você o ame verdadeiramente. Que possa criar uma linda família com tudo o que o papai lhe ensinou e que seja muito feliz nesta vida que passa demasiado depressa. E nunca se esqueça de Deus, filha, Ele é quem tem dado força ao papai.
+                </p>
+                <p class="text-lg leading-relaxed text-gray-700 mt-4">
+                    Filha, muito obrigado por ter feito o papai feliz durante todo este tempo e por ter transformado o que antes era ilusão para o papai em realidade. Papai ama-a, está bem? E saiba que, quando o papai já não estiver cá – que não vai demorar muito, pois papai quer vê-la a casar e a construir a sua família – o propósito do seu papai terá sido cumprido.
+                </p>
+                <p class="text-lg leading-relaxed text-gray-700 mt-4">
+                    Ai, filhinha, saiba que o papai vai estar sempre consigo. Basta fechar os olhos e respirar fundo que se lembrará do papai e dos conselhos do papai e saberá o que o papai lhe diria, está bem, pequenina linda, fofo do papai, orgulho do papai, amo-a pequenina, minha linda filha.
+                </p>
+            </div>
+        </section>
+
+        <section id="passions" class="mb-16">
+            <div class="bg-white/60 p-8 rounded-2xl shadow-lg text-center">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Minhas Paixões</h2>
+                <div id="working-hours" class="mt-8 text-left">
+                    <h3 class="font-bold text-xl mb-4 text-gray-800">Horas de Trabalho neste Projeto</h3>
+                    <ul class="list-disc list-inside text-lg leading-relaxed text-gray-700 space-y-2">
+                        <li>24/Julho/2025 / 03:33 AM -03 / Início do Projeto</li>
+                        <li>24/Julho/2025 / 03:20 AM -03 / Correção de erro JavaScript (TypeError)</li>
+                        <li>24/Julho/2025 / 03:25 AM -03 / Adição da funcionalidade Gemini API (Conselhos)</li>
+                        <li>24/Julho/2025 / 03:28 AM -03 / Revisão geral de português e ajuste de 'papai'/'papá'</li>
+                        <li>24/Julho/2025 / 03:30 AM -03 / Ajuste da frase sobre o tempo de vida e consistência de 'papai'</li>
+                        <li>24/Julho/2025 / 03:32 AM -03 / Expansão da seção 'História do Seu Nome' com opções e detalhes</li>
+                        <li>24/Julho/2025 / 03:33 AM -03 / Adição da seção 'Paixões' e 'Horas de Trabalho'</li>
+                        <li>24/Julho/2025 / 03:40 AM -03 / Campo Mourão / PR / História do nome de Sophia.</li>
+                        <li>24/Julho/2025 / 03:45 AM -03 / Adição da seção 'Converse com o Papai' e ajuste de 'Horas de Trabalho'.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-16">
+            <p class="text-gray-600" style="font-family: 'Playfair Display', serif;">Com todo o meu amor,</p>
+            <p class="text-gray-600" style="font-family: 'Playfair Display', serif;">Seu Papai</p>
+        </footer>
+
+    </main>
+
+    <script>
+        const stories = {
+            sophia: `
+                <h3 class="font-bold text-xl mb-2 text-gray-800">A Escolha do Seu Nome: Sophia Fernanda Amorim da Luz</h3>
+                <p>Minha amada filha, a escolha do seu nome foi um processo cheio de amor, sonhos e uma jornada muito pessoal para o papai.</p>
+                <p class="mt-2">O meu primeiro grande sonho era ter uma filha e o nome que eu tinha em mente para ela era **Isis**. Esse era um desejo que eu partilhava com o grande amor da minha vida. Mas, como a vida nos surpreende, e com a partida desse amor, por um tempo, senti que esse sonho se perderia.</p>
+                <p class="mt-4 font-semibold text-gray-800">No entanto, o amor de pai é imenso e inabalável. Considere as opções que o papai pensou antes de chegar ao seu nome perfeito:</p>
+                <ul class="list-disc list-inside ml-4 mt-2 text-gray-700">
+                    <li>Isis Fernandes Israela Amorim da Luz</li>
+                    <li>Isis Gabrielly Fernanda Amorim da Luz</li>
+                    <li>Isis Fernandes Gabrielly Amorim da Luz</li>
+                </ul>
+                <p class="mt-4">Mas, filha, a vida me trouxe uma nova perspetiva, e com ela, a decisão de adotá-la e amá-la incondicionalmente. Foi nesse momento que o seu nome, **Sophia Fernanda Amorim da Luz**, nasceu no meu coração.</p>
+                <p class="mt-4">Cada parte do seu nome tem um significado profundo e especial para o papai:</p>
+                <ul class="list-disc list-inside ml-4 mt-2 text-gray-700">
+                    <li>**Sophia:** Significa "sabedoria", mas para o papai, ele ganhou um significado ainda mais especial. Embora o meu primeiro sonho fosse o nome Isis, Sophia veio para representar um novo horizonte, uma nova sabedoria que a vida me trouxe. E há mais, minha filha: "Sophia" é também uma homenagem a um grande sonho meu de conhecer os Estados Unidos e a América, um desejo de abrir os meus horizontes, assim como você está a abrir o meu coração.</li>
+                    <li>**Fernanda Amorim:** É a homenagem mais sincera ao grande amor da minha vida, aquela que me ensinou tanto e me fez sonhar em ser pai. É uma recordação eterna de que o amor verdadeiro nunca morre, ele transforma-se e floresce em você. E <strong>Amorim</strong> é o seu sobrenome, a sua raiz, que você carrega com tanto orgulho.</li>
+                    <li>**da Luz:** Minha pequena, este é por mim. É a luz que o seu pai, que a vai criar com todo o amor e dedicação, quer trazer para a sua vida e que você já acendeu na minha. É o meu sobrenome, que agora você também vai carregar, unindo as nossas histórias para sempre.</li>
+                </ul>
+                <p class="mt-4">Este nome, minha filha, é a representação de um amor que transcende, de sonhos que se renovam e da luz que você trouxe para a minha vida.</p>
+            `,
+            fernanda: `
+                <h3 class="font-bold text-xl mb-2 text-gray-800">Fernanda Amorim</h3>
+                <p>É a homenagem mais sincera ao grande amor da minha vida, aquela que me ensinou tanto e me fez sonhar em ser pai. É uma recordação eterna de que o amor verdadeiro nunca morre, ele transforma-se e floresce em você.</p>
+                <p class="mt-2">E <strong>Amorim</strong> é o seu sobrenome, a sua raiz, que você carrega com tanto orgulho.</p>
+            `,
+            luz: `
+                <h3 class="font-bold text-xl mb-2 text-gray-800">da Luz</h3>
+                <p>Minha pequena, este é por mim. É a luz que o seu pai, que a vai criar com todo o amor e dedicação, quer trazer para a sua vida e que você já acendeu na minha.</p>
+                <p class="mt-2">É o meu sobrenome, que agora você também vai carregar, unindo as nossas histórias para sempre.</p>
+            `
+        };
+
+        const storyContent = document.getElementById('story-content');
+        const nameParts = document.querySelectorAll('.name-part');
+        const generateAdviceBtn = document.getElementById('generate-advice-btn');
+        const generatedAdvice = document.getElementById('generated-advice');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        const chatBox = document.getElementById('chat-box');
+        const chatInput = document.getElementById('chat-input');
+        const sendChatBtn = document.getElementById('send-chat-btn');
+        const chatLoadingIndicator = document.getElementById('chat-loading-indicator');
+
+        function showStory(name, clickedElement) {
+            storyContent.innerHTML = '';
+            storyContent.classList.remove('content-fade-in');
+
+            setTimeout(() => {
+                storyContent.innerHTML = stories[name];
+                storyContent.classList.add('content-fade-in');
+            }, 50);
+
+            nameParts.forEach(part => {
+                part.classList.remove('active');
+            });
+
+            let elementToActivate = clickedElement;
+            if (!elementToActivate) {
+                elementToActivate = document.querySelector(`[onclick*="showStory('${name}')"]`);
+            }
+
+            if (elementToActivate) {
+                elementToActivate.classList.add('active');
+            }
+        }
+
+        async function generateAdvice() {
+            loadingIndicator.classList.remove('hidden');
+            generatedAdvice.textContent = '';
+            generateAdviceBtn.disabled = true;
+
+            const prompt = "Gera um conselho amoroso e inspirador para uma filha, vindo de um pai que a ama incondicionalmente. O conselho deve focar na importância de amar verdadeiramente, de construir uma família feliz, de encontrar a felicidade na vida, de nunca esquecer a fé e de saber que o pai estará sempre lá para a apoiar, mesmo quando não estiver presente fisicamente. O conselho deve ser breve e tocante.";
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    generatedAdvice.textContent = text;
+                } else {
+                    generatedAdvice.textContent = "Não foi possível gerar um conselho neste momento. Tente novamente.";
+                }
+            } catch (error) {
+                console.error("Erro ao chamar a API Gemini:", error);
+                generatedAdvice.textContent = "Ocorreu um erro ao gerar o conselho. Por favor, tente mais tarde.";
+            } finally {
+                loadingIndicator.classList.add('hidden');
+                generateAdviceBtn.disabled = false;
+            }
+        }
+
+        async function sendChatMessage() {
+            const userMessage = chatInput.value.trim();
+            if (userMessage === "") return;
+
+            addMessageToChat(userMessage, 'user');
+            chatInput.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            chatLoadingIndicator.classList.remove('hidden');
+            sendChatBtn.disabled = true;
+
+            const prompt = `Você é o pai da Sophia. Responda à Sophia com muito carinho, amor, motivando-a a sempre fazer a coisa certa, a servir a Cristo e a Deus, e reforce o quanto a ama com lindas palavras que apertam o coração. O papai sempre estará com ela. A Sophia disse: "${userMessage}"`;
+            let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            const payload = { contents: chatHistory };
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const aiResponse = result.candidates[0].content.parts[0].text;
+                    addMessageToChat(aiResponse, 'ai');
+                } else {
+                    addMessageToChat("Desculpe, filha. O papai não conseguiu pensar numa resposta agora. Tente novamente.", 'ai');
+                }
+            } catch (error) {
+                console.error("Erro ao chamar a API Gemini para o chat:", error);
+                addMessageToChat("Ocorreu um erro na nossa conversa, filha. Por favor, tente mais tarde.", 'ai');
+            } finally {
+                chatLoadingIndicator.classList.add('hidden');
+                sendChatBtn.disabled = false;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+
+        function addMessageToChat(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', type);
+            messageDiv.textContent = message;
+            chatBox.appendChild(messageDiv);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showStory('sophia');
+            generateAdviceBtn.addEventListener('click', generateAdvice);
+            sendChatBtn.addEventListener('click', sendChatMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendChatMessage();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
